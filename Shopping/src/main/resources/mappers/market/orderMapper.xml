@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "order">
+	<select id = "orderList" resultType = "com.siml.shop.market.dto.OrderDTO">
+		select * from bookorder where userId = #{userId}
+	</select>
+	<insert id = "insert">
+		insert into bookorder(userId, bookInfo, money, orderNum) values(#{userId}, #{bookInfo}, #{money}, #{orderNum})
+	</insert>
+	<select id = "pointCheck" resultType = "int">
+		select point from member where id = #{userId}
+	</select>
+	<update id = "deductPoint">
+		update member set point = #{point} where id = #{userId}
+	</update>
+	<update id = "updateBookStatus">
+		update marketsell set status = #{status} where seq = #{seq}
+	</update>
+	<update id = "updateOrderStatus">
+		update bookorder set status = #{status} where orderNum = #{orderNum}
+	</update>
+</mapper>

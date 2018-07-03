@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "market">
+	<insert id = "sell">
+		insert into marketsell(title, link, image, author, price, publisher, isbn, pubdate, seller, secondPrice)
+		values(#{title}, #{link}, #{image}, #{author}, #{price}, #{publisher}, #{isbn}, #{pubdate}, #{id}, 1000)		
+	</insert>
+	<insert id = "buy">
+		insert into marketbuy(title, link, image, author, price, publisher, isbn, pubdate, buyer, secondPrice)
+		values(#{title}, #{link}, #{image}, #{author}, #{price}, #{publisher}, #{isbn}, #{pubdate}, #{id}, #{secondPrice})
+	</insert>
+	<select id = "countBook" resultType = "int">
+		select count(*) from marketsell
+	</select>
+	<select id = "bookList" resultType = "com.siml.shop.market.dto.NaverBookDTO">
+		select * from marketsell where status = '재고' order by seq
+	</select>
+	<select id = "bookLink" resultType = "com.siml.shop.market.dto.NaverBookDTO">
+		select * from marketsell where status = '재고' order by seq desc limit 6
+	</select>
+	<select id = "bookInfo" resultType = "com.siml.shop.market.dto.NaverBookDTO">
+		select * from marketsell where seq = #{seq}
+	</select>
+	<select id = "bookQuery" parameterType = "java.lang.String" resultType = "com.siml.shop.market.dto.NaverBookDTO">
+		select * from marketsell where 
+		<choose>
+			<when test='_parameter == "가".toString()'>
+				<![CDATA[(title >= "가" and title < "마")]]>
+			</when>
+			<when test='_parameter == "마".toString()'>
+				<![CDATA[(title >= "마" and title < "자")]]>
+			</when>
+			<when test='_parameter == "자".toString()'>
+				<![CDATA[(title >= "자" and title <= "힣")]]>
+			</when>
+			<otherwise>
+				title rlike '^[a-zA-Z0-9]'
+			</otherwise>
+		</choose>
+		 order by title
+	</select>
+</mapper>

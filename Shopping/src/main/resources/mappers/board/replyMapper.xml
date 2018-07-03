@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "reply">
+	<select id="list" resultType = "com.siml.shop.board.dto.ReplyDTO">
+		select * from boardreply where boardSeq = #{boardSeq} order by seq
+    </select>
+
+    <insert id="insert">
+    	insert into boardreply (boardSeq, replyContent, replyWriter) values (#{boardSeq}, #{replyContent}, #{replyWriter})
+    </insert>
+
+<!--     <update id="update">
+    	update boardreply set replycontent = #{replyContent}, updateDate = now() where seq = #{seq}
+    </update> -->
+
+    <delete id="delete">
+    	delete from boardreply where seq = #{seq}
+    </delete>
+</mapper>

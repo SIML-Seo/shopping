@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "board">
+	<insert id = "insert">
+		insert into board(title, content, writer) values(#{title}, #{content}, #{writer})
+	</insert>
+	<select id = "list" resultType = "com.siml.shop.board.dto.QnABoardDTO">
+		select * from board
+		<include refid = "search"/> 
+		order by seq desc, regDate desc limit ${pageStart}, #{perPageNum}
+	</select>
+	<select id = "count" resultType = "int">
+		select count(*) from board 
+		<include refid = "search"/>
+	</select>
+	<select id = "read" resultType = "com.siml.shop.board.dto.QnABoardDTO">
+		select * from board where seq = #{seq}
+	</select>
+	<update id = "modify">
+		update board set title = #{title}, content = #{content} where seq = #{seq}
+	</update>
+	<delete id = "delete">
+		delete from board where seq = #{seq}
+	</delete>
+	
+	<sql id = "search">
+		<if test = "searchOption != 'no' and searchValue != null and searchValue != ''">
+			where ${searchOption} like '%${searchValue}%'
+		</if>
+	</sql>
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "member">
+	<select id = "view" resultType = "com.siml.shop.member.dto.MemberDTO">
+		select * from member where id = #{id}
+	</select>
+	<insert id = "insert">
+		insert into member(name, id, nickname, passwd, email, phone, postcode, address, address2) 
+			values(#{name}, #{id}, #{nickname}, #{passwd}, #{email}, #{phone}, #{postcode}, #{address}, #{address2})
+	</insert>
+	<update id = "update">	
+		update member set nickname = #{nickname}, passwd = #{passwd}, email = #{email}, 
+			phone = #{phone}, postcode = #{postcode}, address = #{address}, address2 = #{address2} where id = #{id}
+	</update>
+	<delete id = "delete">
+		delete from member where id = #{id}
+	</delete>
+	<select id = "idCheck" resultType = "String">
+		select id from member where id = #{id}
+	</select>
+	<select id = "loginCheck" resultType = "String">
+		select id from member where id = #{id} and passwd = #{passwd}
+	</select>
+	<select id = "findId" resultType = "com.siml.shop.member.dto.MemberDTO">
+		select * from member where name = #{name} and email = #{email}
+	</select>
+	<select id = "findPasswd" resultType = "com.siml.shop.member.dto.MemberDTO">
+		select * from member where name = #{name} and email = #{email} and id = #{id}
+	</select>
+	<update id = "updatePasswd">
+		update member set passwd = #{passwd} where id = #{id}
+	</update>
+</mapper>

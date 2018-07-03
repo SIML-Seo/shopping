@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "cart">
+	<select id = "cartList" resultType = "com.siml.shop.market.dto.CartDTO">
+		select c.seq, c.userId, m.name, c.bookNum, b.title, b.image, b.sellDate, b.secondPrice 
+		from cart c join member m on m.id = c.userId join marketsell b on b.seq = c.bookNum where m.id = #{userId}
+	</select>
+	<insert id = "insert">
+		insert into cart (userId, bookNum) values (#{userId}, #{bookNum})
+	</insert>
+	<delete id = "delete">
+		delete from cart where seq = #{seq}
+	</delete>
+	<delete id = "deleteAll">
+		delete from cart where userId = #{userId}
+	</delete>
+	<select id = "sumMoney" resultType = "int">
+		select ifnull(sum(b.secondPrice), 0) money from cart c join marketsell b on b.seq = c.bookNum where userId = #{userId}	
+	</select>
+</mapper>
